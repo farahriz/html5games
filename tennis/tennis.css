@@ -1,0 +1,13 @@
+body {
+	background-color: white;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: normal;
+}
+
+h2 {
+	font-family: 'Press Start 2P', cursive;
+}
+
+div {
+	margin: 20px auto;
+}
