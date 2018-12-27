@@ -6,6 +6,21 @@ let ballSpeedX = 5;
 let ballSpeedY = 5;
 let canvas, canvasContext;
 
+const PADDLE_WIDTH = 100;
+const PADDLE_HEIGHT = 10;
+const PADDLE_THICKNESS = 10;
+let paddleX = 400;
+
+
+function updateMousePos(evt) {
+	let rect = canvas.getBoundingClientRect();
+	let root = document.documentElement;
+
+	let mouseX = evt.clientX - rect.left - root.scrollLeft;
+	// var mouseY = evt.clientY - rect.top - root.scrollTop;
+	paddleX = mouseX - PADDLE_WIDTH/2;
+
+}
 
 window.onload = function() {
 	// Setup canvas
@@ -16,6 +31,7 @@ window.onload = function() {
 	let framesPerSecond = 30;
 	setInterval(updateAll, 1000/framesPerSecond);
 
+	canvas.addEventListener('mousemove', updateMousePos);
 };
 
 function updateAll() {
@@ -45,7 +61,8 @@ function moveAll(){
 
 function drawAll(){
 	colorRect(0,0, canvas.width,canvas.height, 'black'); // clear screen
-	colorCircle(ballX, ballY, 10, 'red'); // draw ball
+	colorCircle(ballX, ballY, 10, 'white'); // draw ball
+	colorRect(paddleX, canvas.height-PADDLE_THICKNESS, PADDLE_WIDTH, PADDLE_THICKNESS, 'white')
 
 };
 
