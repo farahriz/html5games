@@ -16,9 +16,14 @@ window.onload = function() {
 	let framesPerSecond = 30;
 	setInterval(updateAll, 1000/framesPerSecond);
 
-}
+};
 
 function updateAll() {
+	moveAll();
+	drawAll();	
+};
+
+function moveAll(){
 	ballX += ballSpeedX;
 	ballY += ballSpeedY;
 
@@ -36,6 +41,9 @@ function updateAll() {
 		ballSpeedY *=-1;
 	}
 
+};
+
+function drawAll(){
 	// Draw canvas background
 	canvasContext.fillStyle = 'black';
 	canvasContext.fillRect(0,0, canvas.width, canvas.height);
@@ -45,5 +53,5 @@ function updateAll() {
 	canvasContext.beginPath();
 	canvasContext.arc(ballX,ballY,10,0, Math.PI*2, true);
 	canvasContext.fill();
-	
-}
+
+};
