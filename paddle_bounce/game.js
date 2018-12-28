@@ -5,12 +5,12 @@ let ballY = 75;
 let ballSpeedX = 5;
 let ballSpeedY = 5;
 
-const BRICK_W = 100;
-const BRICK_H = 50;
+const BRICK_W = 80;
+const BRICK_H = 20;
 const BRICK_GAP = 2;
 
-const BRICK_COL_COUNT = 8;
-const BRICK_ROW_COUNT = 4;
+const BRICK_COL_COUNT = 10;
+const BRICK_ROW_COUNT = 10;
 let brickGrid = new Array(BRICK_COL_COUNT*BRICK_ROW_COUNT)
 
 const PADDLE_WIDTH = 100;
@@ -106,6 +106,11 @@ function moveAll(){
 	}
 };
 
+function rowColToArrayIndex(col,row){
+	return col + BRICK_COL_COUNT * row;
+}
+
+
 function drawBricks(){
 	for(let eachRow = 0; eachRow<BRICK_ROW_COUNT; eachRow++){
 		for (let eachCol=0; eachCol<BRICK_COL_COUNT; eachCol++){
@@ -129,9 +134,10 @@ function drawAll(){
 	drawBricks();
 
 	// colorText(mouseX+","+mouseY, mouseX,mouseY,'yellow'); // pixel position
-	let mouseBrickCol = mouseX / BRICK_W;
-	let mouseBrickRow = mouseY / BRICK_H;
-	colorText(mouseBrickCol+","+mouseBrickRow, mouseX,mouseY,'yellow'); //mouse position relative to bricks
+	let mouseBrickCol = Math.floor(mouseX / BRICK_W);
+	let mouseBrickRow = Math.floor(mouseY / BRICK_H);
+	let brickIndexUnderMouse = rowColToArrayIndex(mouseBrickCol, mouseBrickRow)
+	colorText(mouseBrickCol+","+mouseBrickRow+" : "+brickIndexUnderMouse, mouseX,mouseY,'yellow'); //mouse position relative to bricks
 
 };
 
