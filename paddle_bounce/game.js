@@ -36,12 +36,9 @@ function updateMousePos(evt) {
 function brickReset(){
 
 		for(let i=0; i<BRICK_COL_COUNT*BRICK_ROW_COUNT;i++){
-			if(Math.random()<0.5){
-				brickGrid[i]=false;
-			} else {
+			
 				brickGrid[i]=true;
-			} // end of else (rand check)
-		} //end it for loop
+		} 
 };
 
 window.onload = function() {
@@ -73,37 +70,53 @@ function moveAll(){
 	ballX += ballSpeedX;
 	ballY += ballSpeedY;
 
-	if (ballX > canvas.width) { //right
-		ballSpeedX *=-1;
-	}
-	if (ballX < 0) { //left
-		ballSpeedX *=-1;
+	//Ball and brick interaction
+	// colorText(mouseX+","+mouseY, mouseX,mouseY,'yellow'); // pixel position
+	let ballBrickCol = Math.floor(ballX / BRICK_W);
+	let ballBrickRow = Math.floor(ballY / BRICK_H);
+	let brickIndexUnderBall = rowColToArrayIndex(ballBrickCol, ballBrickRow)
+	
+	// colorText(mouseBrickCol+","+mouseBrickRow+" : "+brickIndexUnderMouse, mouseX,mouseY,'yellow'); //mouse position relative to bricks
+	
+
+	if(brickIndexUnderBall>=0 && brickIndexUnderBall < BRICK_COL_COUNT * BRICK_ROW_COUNT){
+			brickGrid[brickIndexUnderBall] = false;
 	}
 
-	if (ballY > canvas.height) { //bottom
-		ballReset();
-		// ballSpeedY *=-1;
-	}
-	if (ballY < 0) { //top
-		ballSpeedY *=-1;
-	}
 
-	let paddleTopEdgeY = canvas.height - PADDLE_DIST_FROM_EDGE;
-	let paddleBottomEdgeY = paddleTopEdgeY + PADDLE_THICKNESS;	
-	let paddleLeftEdgeX = paddleX;
-	let paddleRightEdgeX = paddleLeftEdgeX + PADDLE_WIDTH;
+	//Determine ball interaction with canvas
+		if (ballX > canvas.width) { //right
+			ballSpeedX *=-1;
+		}
+		if (ballX < 0) { //left
+			ballSpeedX *=-1;
+		}
 
-	if( ballY > paddleTopEdgeY && // below the top of paddle
-		ballY < paddleBottomEdgeY && // above bottom of paddle
-		ballX > paddleLeftEdgeX && // right of the left side of paddle
-		ballX < paddleRightEdgeX) { // left of the left side of paddle
-		
-		ballSpeedY *= -1;
+		if (ballY > canvas.height) { //bottom
+			ballReset();
+			// ballSpeedY *=-1;
+		}
+		if (ballY < 0) { //top
+			ballSpeedY *=-1;
+		}
 
-		var centerOfPaddleX = paddleX+PADDLE_WIDTH/2;
-		var ballDistFromPaddleCenterX = ballX - centerOfPaddleX;
-		ballSpeedX = ballDistFromPaddleCenterX * 0.35;
-	}
+	// Set player control of paddle
+		let paddleTopEdgeY = canvas.height - PADDLE_DIST_FROM_EDGE;
+		let paddleBottomEdgeY = paddleTopEdgeY + PADDLE_THICKNESS;	
+		let paddleLeftEdgeX = paddleX;
+		let paddleRightEdgeX = paddleLeftEdgeX + PADDLE_WIDTH;
+
+		if( ballY > paddleTopEdgeY && // below the top of paddle
+			ballY < paddleBottomEdgeY && // above bottom of paddle
+			ballX > paddleLeftEdgeX && // right of the left side of paddle
+			ballX < paddleRightEdgeX) { // left of the left side of paddle
+			
+			ballSpeedY *= -1;
+
+			var centerOfPaddleX = paddleX+PADDLE_WIDTH/2;
+			var ballDistFromPaddleCenterX = ballX - centerOfPaddleX;
+			ballSpeedX = ballDistFromPaddleCenterX * 0.35;
+		}
 };
 
 function rowColToArrayIndex(col,row){
@@ -129,15 +142,11 @@ function drawBricks(){
 
 function drawAll(){
 	colorRect(0,0, canvas.width,canvas.height, 'black'); // clear screen
-	colorCircle(ballX, ballY, 10, 'white'); // draw ball
 	colorRect(paddleX, canvas.height-PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, 'white') // draw paddle
+	colorCircle(ballX, ballY, 10, 'white'); // draw ball
+
 	drawBricks();
 
-	// colorText(mouseX+","+mouseY, mouseX,mouseY,'yellow'); // pixel position
-	let mouseBrickCol = Math.floor(mouseX / BRICK_W);
-	let mouseBrickRow = Math.floor(mouseY / BRICK_H);
-	let brickIndexUnderMouse = rowColToArrayIndex(mouseBrickCol, mouseBrickRow)
-	colorText(mouseBrickCol+","+mouseBrickRow+" : "+brickIndexUnderMouse, mouseX,mouseY,'yellow'); //mouse position relative to bricks
 
 };
 
