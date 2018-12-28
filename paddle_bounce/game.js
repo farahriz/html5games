@@ -4,22 +4,36 @@ let ballX = 75;
 let ballY = 75;
 let ballSpeedX = 5;
 let ballSpeedY = 5;
-let canvas, canvasContext;
+
+const BRICK_W = 100;
+const BRICK_H = 50;
+const BRICK_COUNT = 8;
+let brickGrid = new Array(BRICK_COUNT)
 
 const PADDLE_WIDTH = 100;
 const PADDLE_THICKNESS = 10;
 const PADDLE_DIST_FROM_EDGE = 60;
 let paddleX = 400;
 
+let canvas, canvasContext;
+
+let mouseX = 0;
+let mouseY = 0;
 
 function updateMousePos(evt) {
 	let rect = canvas.getBoundingClientRect();
 	let root = document.documentElement;
 
-	let mouseX = evt.clientX - rect.left - root.scrollLeft;
-	// var mouseY = evt.clientY - rect.top - root.scrollTop;
+	mouseX = evt.clientX - rect.left - root.scrollLeft;
+	mouseY = evt.clientY - rect.top - root.scrollTop;
 	paddleX = mouseX - PADDLE_WIDTH/2;
 
+}
+
+function brickReset(){
+	for(let i=0; i<BRICK_COUNT;i++){
+		brickGrid[i]=true;
+	}
 }
 
 window.onload = function() {
@@ -32,6 +46,8 @@ window.onload = function() {
 	setInterval(updateAll, 1000/framesPerSecond);
 
 	canvas.addEventListener('mousemove', updateMousePos);
+
+	brickReset()
 };
 
 function updateAll() {
@@ -82,11 +98,22 @@ function moveAll(){
 	}
 };
 
+function drawBricks(){
+
+	for (let i=0; i<BRICK_COUNT; i++){
+		if(brickGrid[i]){
+			colorRect(BRICK_W*i,0, BRICK_W-2, BRICK_H, 'blue');
+		}
+	}
+}
+
+
 function drawAll(){
 	colorRect(0,0, canvas.width,canvas.height, 'black'); // clear screen
 	colorCircle(ballX, ballY, 10, 'white'); // draw ball
 	colorRect(paddleX, canvas.height-PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, 'white') // draw paddle
-
+	colorText(mouseX+","+mouseY, mouseX,mouseY,'yellow');
+	drawBricks();
 };
 
 function colorRect(topLeftX,topLeftY, boxWidth,boxHeight, fillColor){
@@ -99,5 +126,9 @@ function colorCircle(centerX,centerY, radius, fillColor){
 	canvasContext.beginPath();
 	canvasContext.arc(centerX,centerY,radius,0, Math.PI*2, true);
 	canvasContext.fill();
-	
+}	
+
+function colorText(showWords, textX,textY, fillColor){
+	canvasContext.fillStyle = fillColor;
+	canvasContext.fillText(showWords, textX,textY);
 }
