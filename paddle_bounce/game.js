@@ -9,8 +9,9 @@ const BRICK_W = 100;
 const BRICK_H = 50;
 const BRICK_GAP = 2;
 
-const BRICK_COUNT = 8;
-let brickGrid = new Array(BRICK_COUNT)
+const BRICK_COL_COUNT = 8;
+const BRICK_ROW_COUNT = 4;
+let brickGrid = new Array(BRICK_COL_COUNT*BRICK_ROW_COUNT)
 
 const PADDLE_WIDTH = 100;
 const PADDLE_THICKNESS = 10;
@@ -33,13 +34,14 @@ function updateMousePos(evt) {
 }
 
 function brickReset(){
-	for(let i=0; i<BRICK_COUNT;i++){
-		if(Math.random()<0.5){
-			brickGrid[i]=false;
-		} else {
-			brickGrid[i]=true;
-		} // end of else (rand check)
-	} //und it for loop
+
+		for(let i=0; i<BRICK_COL_COUNT*BRICK_ROW_COUNT;i++){
+			if(Math.random()<0.5){
+				brickGrid[i]=false;
+			} else {
+				brickGrid[i]=true;
+			} // end of else (rand check)
+		} //end it for loop
 };
 
 window.onload = function() {
@@ -105,12 +107,18 @@ function moveAll(){
 };
 
 function drawBricks(){
+	for(let eachRow = 0; eachRow<BRICK_ROW_COUNT; eachRow++){
+		for (let eachCol=0; eachCol<BRICK_COL_COUNT; eachCol++){
 
-	for (let i=0; i<BRICK_COUNT; i++){
-		if(brickGrid[i]){
-			colorRect(BRICK_W*i,0, BRICK_W-BRICK_GAP, BRICK_H, 'blue');
-		} // end of is this brick
-	} //end of for loop
+			let arrayIndex = BRICK_COL_COUNT*eachRow + eachCol;
+
+			if(brickGrid[arrayIndex]){
+				colorRect(BRICK_W*eachCol,BRICK_H*eachRow, BRICK_W-BRICK_GAP, BRICK_H-BRICK_GAP, 'blue');
+			} // end of is this brick
+		} //end of for loop
+
+	}		
+
 }
 
 
