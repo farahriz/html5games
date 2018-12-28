@@ -7,6 +7,8 @@ let ballSpeedY = 5;
 
 const BRICK_W = 100;
 const BRICK_H = 50;
+const BRICK_GAP = 2;
+
 const BRICK_COUNT = 8;
 let brickGrid = new Array(BRICK_COUNT)
 
@@ -32,9 +34,13 @@ function updateMousePos(evt) {
 
 function brickReset(){
 	for(let i=0; i<BRICK_COUNT;i++){
-		brickGrid[i]=true;
-	}
-}
+		if(Math.random()<0.5){
+			brickGrid[i]=false;
+		} else {
+			brickGrid[i]=true;
+		} // end of else (rand check)
+	} //und it for loop
+};
 
 window.onload = function() {
 	// Setup canvas
@@ -102,9 +108,9 @@ function drawBricks(){
 
 	for (let i=0; i<BRICK_COUNT; i++){
 		if(brickGrid[i]){
-			colorRect(BRICK_W*i,0, BRICK_W-2, BRICK_H, 'blue');
-		}
-	}
+			colorRect(BRICK_W*i,0, BRICK_W-BRICK_GAP, BRICK_H, 'blue');
+		} // end of is this brick
+	} //end of for loop
 }
 
 
@@ -112,8 +118,13 @@ function drawAll(){
 	colorRect(0,0, canvas.width,canvas.height, 'black'); // clear screen
 	colorCircle(ballX, ballY, 10, 'white'); // draw ball
 	colorRect(paddleX, canvas.height-PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, 'white') // draw paddle
-	colorText(mouseX+","+mouseY, mouseX,mouseY,'yellow');
 	drawBricks();
+
+	// colorText(mouseX+","+mouseY, mouseX,mouseY,'yellow'); // pixel position
+	let mouseBrickCol = mouseX / BRICK_W;
+	let mouseBrickRow = mouseY / BRICK_H;
+	colorText(mouseBrickCol+","+mouseBrickRow, mouseX,mouseY,'yellow'); //mouse position relative to bricks
+
 };
 
 function colorRect(topLeftX,topLeftY, boxWidth,boxHeight, fillColor){
