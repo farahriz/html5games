@@ -1,17 +1,15 @@
-console.log("connected")
-
 let ballX = 75;
 let ballY = 75;
 let ballSpeedX = 4;
 let ballSpeedY = -4;
 
 const BRICK_W = 80;
-const BRICK_H = 40;
+const BRICK_H = 20;
 const BRICK_GAP = 2;
-
 const BRICK_COL_COUNT = 10;
-const BRICK_ROW_COUNT = 6;
+const BRICK_ROW_COUNT = 14;
 let brickGrid = new Array(BRICK_COL_COUNT*BRICK_ROW_COUNT)
+let bricksLeft = 0;
 
 const PADDLE_WIDTH = 100;
 const PADDLE_THICKNESS = 10;
@@ -29,18 +27,25 @@ function updateMousePos(evt) {
 
 	mouseX = evt.clientX - rect.left - root.scrollLeft;
 	mouseY = evt.clientY - rect.top - root.scrollTop;
+
 	paddleX = mouseX - PADDLE_WIDTH/2;
 
-	ballX = mouseX;
-	ballY = mouseY;
+	//Tool to test ball in any position
+		// ballX = mouseX;
+		// ballY = mouseY;
 
-}
+};
 
 function brickReset(){
-
-		for(let i=0; i<BRICK_COL_COUNT*BRICK_ROW_COUNT;i++){
-				brickGrid[i]=true;
-		} 
+	let i;
+	for(i=0; i< 3*BRICK_COL_COUNT; i++){
+		brickGrid[i]=false;
+	}
+	for(;i<BRICK_COL_COUNT*BRICK_ROW_COUNT; i++){
+		brickGrid[i]=true;
+		bricksLeft++;
+		// console.log(bricksLeft)
+	} 
 };
 
 window.onload = function() {
@@ -55,7 +60,7 @@ window.onload = function() {
 	canvas.addEventListener('mousemove', updateMousePos);
 
 	brickReset()
-	//ballReset()
+	ballReset()
 };
 
 function updateAll() {
@@ -66,7 +71,7 @@ function updateAll() {
 function ballReset(){
 	ballX = canvas.width/2;
 	ballY = canvas.height/2;
-}
+};
 
 
 function ballMove(){
@@ -74,21 +79,31 @@ function ballMove(){
 	ballY += ballSpeedY;
 
 	//Determine ball interaction with canvas
-		if (ballX > canvas.width) { //right
+		if (ballX < 0 && ballSpeedX < 0.0) { //left
 			ballSpeedX *=-1;
 		}
-		if (ballX < 0) { //left
+		if (ballX > canvas.width && ballSpeedX > 0.0) { //right
 			ballSpeedX *=-1;
 		}
-
+		if (ballY < 0 && ballSpeedY < 0.0) { //top
+			ballSpeedY *=-1;
+		}
 		if (ballY > canvas.height) { //bottom
+			ballReset();
 			ballReset();
 			// ballSpeedY *=-1;
 		}
-		if (ballY < 0) { //top
-			ballSpeedY *=-1;
-		}
-}
+};
+
+function isBrickAtColRow(col,row){
+	if(col >= 0  && col < BRICK_COL_COUNT && 
+	   row >= 0 && row < BRICK_ROW_COUNT){
+		let brickIndexUnderCoord = rowColToArrayIndex(col,row);
+		return brickGrid[brickIndexUnderCoord];		
+	} else {
+		return false;
+	}
+};
 
 function ballBrickHandling(){
 	let ballBrickCol = Math.floor(ballX / BRICK_W);
@@ -98,8 +113,10 @@ function ballBrickHandling(){
 	if(ballBrickCol >= 0  && ballBrickCol < BRICK_COL_COUNT && 
 		ballBrickRow >= 0 && ballBrickRow < BRICK_ROW_COUNT){
 			
-		if(brickGrid[brickIndexUnderBall]){
+		if(isBrickAtColRow(ballBrickCol,ballBrickRow)){
 			brickGrid[brickIndexUnderBall] = false;
+			bricksLeft--;
+			// console.log(bricksLeft)
 
 			let prevBallX= ballX-ballSpeedX;
 			let prevBallY= ballY-ballSpeedY;
@@ -107,20 +124,17 @@ function ballBrickHandling(){
 			let prevBrickRow = Math.floor(prevBallY/BRICK_H);
 
 			let bothTestsFailed = true;
-			if(prevBrickCol != ballBrickCol){
-				let adjBrickSide = rowColToArrayIndex(prevBrickCol, ballBrickRow)
 
-				if(brickGrid[adjBrickSide]==false){
+			if(prevBrickCol != ballBrickCol){
+				if(isBrickAtColRow(prevBrickCol, prevBrickRow)==false){
 					ballSpeedX *=-1
 					bothTestsFailed = false;
 				}				
 			}
 
 			if(prevBrickRow != ballBrickRow){
-				ballSpeedY *=-1;
-				let adjBrickTopBot = rowColToArrayIndex(ballBrickCol, prevBrickRow)
-				if(brickGrid[adjBrickSide]==false){
-					ballSpeedX *=-1
+				if(isBrickAtColRow(prevBrickCol, prevBrickRow)==false){
+					ballSpeedY *=-1
 					bothTestsFailed = false;
 				}
 			}
@@ -151,8 +165,11 @@ function ballPaddleHandling(){
 		var centerOfPaddleX = paddleX+PADDLE_WIDTH/2;
 		var ballDistFromPaddleCenterX = ballX - centerOfPaddleX;
 		ballSpeedX = ballDistFromPaddleCenterX * 0.35;
-	}
-	
+
+		if(bricksLeft==0){
+			brickReset();
+		} // out of bricks
+	} // ball center inside paddle
 };
 
 function moveAll(){
@@ -163,7 +180,7 @@ function moveAll(){
 
 function rowColToArrayIndex(col,row){
 	return col + BRICK_COL_COUNT * row;
-}
+};
 
 
 function drawBricks(){
@@ -179,7 +196,7 @@ function drawBricks(){
 
 	}		
 
-}
+};
 
 
 function drawAll(){
