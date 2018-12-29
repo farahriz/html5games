@@ -11,6 +11,16 @@ const DRIVE_POWER = 0.5;
 const REVERSE_POWER = 0.2;
 const TURN_RATE = 0.03;
 
+
+function carImageLoad(){
+	carPic.onload = function(){
+	carPicLoaded = true;
+	}
+	
+	carPic.src = "player1car.png";
+}
+
+
 function carReset(){;
 	for(let eachRow=0;eachRow<TRACK_ROW_COUNT;eachRow++) {
 		for(let eachCol=0;eachCol<TRACK_COL_COUNT;eachCol++) {

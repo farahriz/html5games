@@ -11,12 +11,9 @@ window.onload = function() {
 
 	setupInput();
 
-	carPic.onload = function(){
-		carPicLoaded = true;
-	}
-	carPic.src = "player1car.png";
+	carImageLoad();
 
-	carReset()
+	carReset();
 };
 
 function updateAll() {
