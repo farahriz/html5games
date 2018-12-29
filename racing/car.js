@@ -1,4 +1,5 @@
 let carPic = document.createElement('img');
+
 let carPicLoaded = false;
 
 let carX = 75;
@@ -16,7 +17,7 @@ function carImageLoad(){
 	carPic.onload = function(){
 	carPicLoaded = true;
 	}
-	
+
 	carPic.src = "player1car.png";
 }
 
@@ -54,11 +55,10 @@ function carMove(){
 
 	carX += Math.cos(carAng) * carSpeed;
 	carY += Math.sin(carAng) * carSpeed;
-
 };
 
 function carDraw(){
 	if(carPicLoaded){
 		drawBitmapWithRotation(carPic, carX,carY, carAng);
 	}
-}
+};
