@@ -32,6 +32,11 @@ let trackGrid = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 
 let canvas, canvasContext;
 
+const KEY_LEFT_ARROW 	= 37;
+const KEY_UP_ARROW 		= 38;
+const KEY_RIGHT_ARROW 	= 39;
+const KEY_DOWN_ARROW 	= 40;
+
 let mouseX = 0;
 let mouseY = 0;
 
@@ -46,10 +51,30 @@ function updateMousePos(evt) {
 	//Tool to test car in any position
 		// carX = mouseX;
 		// carY = mouseY;
-		//carSpeedX = 5;
-		//carSpeedY = 5;
 
 };
+
+function keyPressed(evt){
+	// console.log("Key pressed: "+evt.keyCode);
+	if(evt.keyCode == KEY_LEFT_ARROW){
+		carAng -=0.5;
+	}
+	if(evt.keyCode == KEY_RIGHT_ARROW){
+		carAng +=0.5;
+	}
+	if(evt.keyCode == KEY_DOWN_ARROW){
+		carSpeed -=0.5;
+	}
+	if(evt.keyCode == KEY_UP_ARROW){
+		carSpeed +=0.5;
+	}
+
+
+}
+
+function keyReleased(evt){
+	console.log("Key released: "+evt.keyCode);
+}
 
 window.onload = function() {
 	// Setup canvas
@@ -61,6 +86,9 @@ window.onload = function() {
 	setInterval(updateAll, 1000/framesPerSecond);
 
 	canvas.addEventListener('mousemove', updateMousePos);
+
+	document.addEventListener('keydown', keyPressed);
+	document.addEventListener('keyup', keyReleased);
 
 	carPic.onload = function(){
 		carPicLoaded = true;
@@ -76,7 +104,7 @@ function updateAll() {
 };
 
 
-function carReset() {
+function carReset(){;
 	for(let eachRow=0;eachRow<TRACK_ROW_COUNT;eachRow++) {
 		for(let eachCol=0;eachCol<TRACK_COL_COUNT;eachCol++) {
 			let arrayIndex = rowColToArrayIndex(eachCol, eachRow); 
@@ -93,7 +121,7 @@ function carReset() {
 function carMove(){
 	carX += Math.cos(carAng) * carSpeed;
 	carY += Math.sin(carAng) * carSpeed;
-	carAng += 0.02
+
 
 };
 
