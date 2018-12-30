@@ -58,25 +58,36 @@ function rowColToArrayIndex(col,row){
 	return col + TRACK_COL_COUNT * row;
 };
 
+function drawTracks() {
 
-function drawTracks(){
-	for(let eachRow = 0; eachRow<TRACK_ROW_COUNT; eachRow++){
-		for (let eachCol=0; eachCol<TRACK_COL_COUNT; eachCol++){
+	for(var eachRow=0;eachRow<TRACK_ROW_COUNT;eachRow++) {
+		for(var eachCol=0;eachCol<TRACK_COL_COUNT;eachCol++) {
 
-			let arrayIndex = TRACK_COL_COUNT*eachRow + eachCol;
-
-			if(trackGrid[arrayIndex]==TRACK_ROAD){
-				canvasContext.drawImage(roadPic, TRACK_W*eachCol,TRACK_H*eachRow);
-			} else if(trackGrid[arrayIndex]==TRACK_WALL) {
-				canvasContext.drawImage(wallPic, TRACK_W*eachCol,TRACK_H*eachRow);
-			} else if(trackGrid[arrayIndex]==TRACK_GOAL) {
-				canvasContext.drawImage(goalPic, TRACK_W*eachCol,TRACK_H*eachRow);
-			} else if(trackGrid[arrayIndex]==TRACK_TREE) {
-				canvasContext.drawImage(treePic, TRACK_W*eachCol,TRACK_H*eachRow);
-			} else if(trackGrid[arrayIndex]==TRACK_FLAG) {
-				canvasContext.drawImage(flagPic, TRACK_W*eachCol,TRACK_H*eachRow);
+			var arrayIndex = rowColToArrayIndex(eachCol, eachRow); 
+			var tileKindHere = trackGrid[arrayIndex];
+			var useImg;
+			switch(tileKindHere) {
+				case TRACK_ROAD:
+					useImg = roadPic;
+					break;
+				case TRACK_WALL:
+					useImg = wallPic;
+					break;
+				case TRACK_GOAL:
+					useImg = goalPic;
+					break;
+				case TRACK_TREE:
+					useImg = treePic;
+					break;
+				case TRACK_FLAG:
+					useImg = flagPic;
+					break;
 			}
-		} //end of for each col
+
+			canvasContext.drawImage(useImg,
+					TRACK_W*eachCol,TRACK_H*eachRow);
+
+		} // end of for each col
 	} // end of for each row
 
-}; // end of drawTracks func
+} // end of drawTracks func
