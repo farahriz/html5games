@@ -1,7 +1,6 @@
 let canvas, canvasContext;
 
 window.onload = function() {
-	// Setup canvas
 	canvas = document.getElementById('gameCanvas');
 	canvasContext = canvas.getContext('2d');
 

@@ -3,7 +3,6 @@ const TRACK_H = 40;
 const TRACK_GAP = 2;
 const TRACK_COL_COUNT = 20;
 const TRACK_ROW_COUNT = 15;
-
 let trackGrid = [4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4,
 				 4, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -19,6 +18,7 @@ let trackGrid = [4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4,
 				 0, 3, 0, 0, 0, 0, 1, 4, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1,
 				 0, 3, 0, 0, 0, 0, 1, 4, 4, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1,
 				 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1, 4];
+
 const TRACK_ROAD = 0;
 const TRACK_WALL = 1;
 const TRACK_PLAYERSTART = 2;
@@ -31,7 +31,7 @@ function isObstacleAtColRow(col,row){
 	if(col >= 0  && col < TRACK_COL_COUNT && 
 	   row >= 0 && row < TRACK_ROW_COUNT){
 		let trackIndexUnderCoord = rowColToArrayIndex(col,row);
-		return (trackGrid[trackIndexUnderCoord] == TRACK_WALL);		
+		return (trackGrid[trackIndexUnderCoord] != TRACK_ROAD);		
 	} else {
 		return false;
 	}
@@ -60,34 +60,22 @@ function rowColToArrayIndex(col,row){
 
 function drawTracks() {
 
-	for(var eachRow=0;eachRow<TRACK_ROW_COUNT;eachRow++) {
-		for(var eachCol=0;eachCol<TRACK_COL_COUNT;eachCol++) {
+	let arrayIndex = 0;
+	let drawTileX = 0;
+	let drawTileY = 0;
 
-			var arrayIndex = rowColToArrayIndex(eachCol, eachRow); 
-			var tileKindHere = trackGrid[arrayIndex];
-			var useImg;
-			switch(tileKindHere) {
-				case TRACK_ROAD:
-					useImg = roadPic;
-					break;
-				case TRACK_WALL:
-					useImg = wallPic;
-					break;
-				case TRACK_GOAL:
-					useImg = goalPic;
-					break;
-				case TRACK_TREE:
-					useImg = treePic;
-					break;
-				case TRACK_FLAG:
-					useImg = flagPic;
-					break;
-			}
+	for(let eachRow=0;eachRow<TRACK_ROW_COUNT;eachRow++) {
+		for(let eachCol=0;eachCol<TRACK_COL_COUNT;eachCol++) {
+			let tileKindHere = trackGrid[arrayIndex];
+			let useImg = trackPics[tileKindHere];
 
-			canvasContext.drawImage(useImg,
-					TRACK_W*eachCol,TRACK_H*eachRow);
+			canvasContext.drawImage(useImg, drawTileX,drawTileY);
+			arrayIndex++;
+			drawTileX += TRACK_W;
 
 		} // end of for each col
+		drawTileY += TRACK_H;
+		drawTileX = 0; //reset draw line row
 	} // end of for each row
 
 } // end of drawTracks func
