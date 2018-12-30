@@ -16,12 +16,11 @@
 		canvasContext.fillText(showWords, textX,textY);
 	}
 
-	function drawBitmapWithRotation(useBitmap, atX, atY, withAng){
+	function drawBitmapCenteredWithRotation(useBitmap, atX,atY, withAng) {
 	canvasContext.save();
-	canvasContext.translate(atX,atY);
-	canvasContext.rotate(carAng);
+	canvasContext.translate(atX, atY);
+	canvasContext.rotate(withAng);
 	canvasContext.drawImage(useBitmap, -useBitmap.width/2, -useBitmap.height/2);
 	canvasContext.restore();
-	};
-
+}
 

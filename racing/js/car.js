@@ -44,5 +44,5 @@ function carMove(){
 };
 
 function carDraw(){
-	drawBitmapWithRotation(carPic, carX,carY, carAng);
+	drawBitmapCenteredWithRotation(carPic, carX,carY, carAng);
 };
