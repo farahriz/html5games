@@ -50,16 +50,16 @@ function updateMousePos(evt) {
 
 function keySet(keyEvent, whichCar, setTo){
 	if(keyEvent.keyCode == whichCar.controlKeyLeft){
-		whichCar.keyHeld_TurnLeft = setTo;
+		whichCar.keyHeld_Left = setTo;
 	}
 	if(keyEvent.keyCode == whichCar.controlKeyRight){
-		whichCar.keyHeld_TurnRight = setTo;
+		whichCar.keyHeld_Right = setTo;
 	}
 	if(keyEvent.keyCode == whichCar.controlKeyDown){
-		whichCar.keyHeld_Reverse = setTo;
+		whichCar.keyHeld_Down = setTo;
 	}
 	if(keyEvent.keyCode == whichCar.controlKeyUp){
-		whichCar.keyHeld_Gas = setTo;
+		whichCar.keyHeld_Up = setTo;
 	}
 };
 
