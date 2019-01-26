@@ -1,6 +1,6 @@
 let canvas, canvasContext;
 
-let blueCar = new carClass();
+let blueWarrior = new warriorClass();
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
@@ -25,7 +25,7 @@ function imageLoadingDoneSoStartGame(){
 
 function loadLevel(whichLevel){
 	trackGrid = whichLevel.slice();
-	blueCar.reset(carPic, "Blue Storm");
+	blueWarrior.reset(carPic, "Blue Storm");
 }
 
 function updateAll() {
@@ -35,13 +35,13 @@ function updateAll() {
 
 
 function moveAll(){
-	blueCar.move();
+	blueWarrior.move();
 
 };
 
 function drawAll(){
 	drawTracks();
-	blueCar.draw();
+	blueWarrior.draw();
 
 };
 

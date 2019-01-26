@@ -4,8 +4,8 @@ function warriorClass(){
 	
 	PLAYER_MOVE_SPEED = 
 
-	this.myCarPic; // which picture to use
-	this.name = "Untitled Car"
+	this.myWarriorPic; // which picture to use
+	this.name = "Untitled Warrior"
 
 	this.keyHeld_Up 	= false;
 	this.keyHeld_Down 	= false;
@@ -26,9 +26,9 @@ function warriorClass(){
 
 
 
-	this.reset = function(whichImage, carName){
+	this.reset = function(whichImage, warriorName){
 		this.name = warriorName;
-		this.myCarPic = whichImage;
+		this.myPic = whichImage;
 		this.speed = 0;
 		for(let eachRow=0;eachRow<TRACK_ROW_COUNT;eachRow++) {
 			for(let eachCol=0;eachCol<TRACK_COL_COUNT;eachCol++) {
@@ -69,7 +69,7 @@ function warriorClass(){
 	// 	this.x += Math.cos(this.ang) * this.speed;
 	// 	this.y += Math.sin(this.ang) * this.speed;
 
-	// 	carTrackHandling(this);
+	// 	warriorTrackHandling(this);
 	// }; // end of Move
 
 	this.move = function(){
@@ -99,7 +99,7 @@ function warriorClass(){
 
 
 	this.draw = function(){
-		drawBitmapCentered(this.myCarPic, this.x,this.y);
+		drawBitmapCentered(this.myWarriorPic, this.x,this.y);
 	};
 
 	
