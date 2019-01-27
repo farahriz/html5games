@@ -81,14 +81,17 @@ function warriorClass(){
 
 		if(this.keyHeld_Down){
 			this.speedY == 5
+			console.log("Down")
 		}
 
 		if(this.keyHeld_Left){
-			this.speedX == 5
+			this.speedX == 
+			console.log("Left")
 		}
 
 		if(this.keyHeld_Right){
 			this.speedX == 5
+			console.log("Right")
 		}
 
 		this.y += this.speedY
