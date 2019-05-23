@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Board Game</title>
+</head>
+<body>
+	<canvas id="gameCanvas" width="800" height="600"></canvas>
+</body>
+
+<script type="text/javascript">
+
+	window.onload = function() {
+		canvas = document.getElementById('gameCanvas');
+		canvasContext = canvas.getContext('2d');
+
+		// these next few lines set up our game logic and render to happen 30 times per second
+		var framesPerSecond = 30;
+		setInterval(function() {
+		    drawEverything();
+		  }, 1000/framesPerSecond);
+
+		canvasContext.font="12px Arial";
+  	};
+
+  	function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
+	    canvasContext.fillStyle = fillColor;
+	    canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
+  	};
+
+	function outlineRect(topLeftX, topLeftY, boxWidth, boxHeight, lineColor) {
+		canvasContext.beginPath();
+		canvasContext.strokeStyle = lineColor;
+		canvasContext.lineWidth = "3";
+		canvasContext.rect(topLeftX, topLeftY, boxWidth, boxHeight);
+		canvasContext.stroke();
+  	};
+
+	function drawEverything() {
+	    colorRect(0, 0, canvas.width, canvas.height, 'black');
+
+	    canvasContext.textAlign="center";
+	    
+	    canvasContext.textAlign="left";
+	    canvasContext.fillStyle = 'white';
+	    var rightAreaX = 800-200;
+	    var lineSkip = 15;
+	    var lineY = 20;
+	    canvasContext.fillText("Click any piece to select",rightAreaX,lineY);
+	    lineY += lineSkip;
+	    canvasContext.fillText("Then click spot to move to",rightAreaX,lineY);
+	    lineY += lineSkip;
+	    canvasContext.fillText("Turns and legal moves not enforced.",rightAreaX,lineY);
+	    lineY += lineSkip;
+	    canvasContext.fillText("That'd be a good exercise, though!",rightAreaX,lineY);
+	};
+</script>
+
+
+</html>
