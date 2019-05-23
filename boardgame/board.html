@@ -9,6 +9,8 @@
 
 <script type="text/javascript">
 
+
+
 	window.onload = function() {
 		canvas = document.getElementById('gameCanvas');
 		canvasContext = canvas.getContext('2d');
@@ -35,10 +37,20 @@
 		canvasContext.stroke();
   	};
 
+  	function drawTile(positionX, positionY, tileWidth){
+  		// tiles are square so wisth = height
+  		colorRect(positionX,positionY,tileWidth,tileWidth,'white')
+  		colorRect(positionX+tileWidth,positionY+tileWidth,tileWidth,tileWidth,'white')
+  		colorRect(positionX+2*tileWidth,positionY+2*tileWidth,tileWidth,tileWidth,'white')
+  		colorRect(positionX+3*tileWidth,positionY+3*tileWidth,tileWidth,tileWidth,'white')
+  		colorRect(positionX+4*tileWidth,positionY+4*tileWidth,tileWidth,tileWidth,'white')
+  	}
+
 	function drawEverything() {
 	    colorRect(0, 0, canvas.width, canvas.height, 'black');
 
 	    canvasContext.textAlign="center";
+	    drawTile(0,0,100)
 	    
 	    canvasContext.textAlign="left";
 	    canvasContext.fillStyle = 'white';
