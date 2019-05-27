@@ -9,6 +9,7 @@
 
 <script type="text/javascript">
 
+	var H_TILES = 10;
 
 
 	window.onload = function() {
@@ -37,20 +38,22 @@
 		canvasContext.stroke();
   	};
 
-  	function drawTile(positionX, positionY, tileWidth){
-  		// tiles are square so wisth = height
-  		colorRect(positionX,positionY,tileWidth,tileWidth,'white')
-  		colorRect(positionX+tileWidth,positionY+tileWidth,tileWidth,tileWidth,'white')
-  		colorRect(positionX+2*tileWidth,positionY+2*tileWidth,tileWidth,tileWidth,'white')
-  		colorRect(positionX+3*tileWidth,positionY+3*tileWidth,tileWidth,tileWidth,'white')
-  		colorRect(positionX+4*tileWidth,positionY+4*tileWidth,tileWidth,tileWidth,'white')
-  	}
+  	function drawWhiteTiles(){
+  		// tiles are square so width = height
+  		let tileWidth = (canvas.height)/H_TILES
+
+  		for (let i = 0; i < H_TILES; i++){
+  			colorRect(i*tileWidth,i*tileWidth,tileWidth,tileWidth,'white')
+ 
+  		}
+  	};
 
 	function drawEverything() {
 	    colorRect(0, 0, canvas.width, canvas.height, 'black');
 
 	    canvasContext.textAlign="center";
-	    drawTile(0,0,100)
+	    drawWhiteTiles()
+	
 	    
 	    canvasContext.textAlign="left";
 	    canvasContext.fillStyle = 'white';
